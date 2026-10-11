@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#101827">
+<title>FAUCON — Checklist de trading</title>
+<style>
+:root{--bg:#0b1220;--panel:#131e30;--panel2:#1b2940;--text:#f3f6fb;--muted:#aab7ca;--line:#2b3a52;--accent:#e5b84b;--green:#3cc78a;--red:#ff7373}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+main{max-width:720px;margin:auto;padding:18px 14px 40px}.hero{padding:20px;border:1px solid var(--line);border-radius:22px;background:linear-gradient(145deg,#18263c,#101827)}
+.kicker{font-size:12px;letter-spacing:.18em;color:var(--accent);font-weight:800}.hero h1{margin:5px 0;font-size:30px}.hero p{margin:8px 0 0;color:var(--muted)}
+.row{display:flex;gap:10px;align-items:center;justify-content:space-between}.pill{border:1px solid var(--line);border-radius:999px;padding:6px 10px;font-size:12px;color:var(--muted)}
+section{margin-top:16px;padding:17px;border:1px solid var(--line);border-radius:18px;background:var(--panel)}h2{font-size:18px;margin:0 0 12px}.sub{color:var(--muted);font-size:13px;margin:-5px 0 12px}
+.progress{height:7px;border-radius:99px;background:#29364b;overflow:hidden;margin:10px 0 16px}.bar{height:100%;width:0;background:var(--accent);transition:width .15s}
+.item{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);cursor:pointer}.item:last-child{border-bottom:0}.item input{width:22px;height:22px;flex-shrink:0;accent-color:var(--green);margin:1px 0 0}.item span{flex:1}.item small{display:block;color:var(--muted);font-size:12px;margin-top:3px}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field label{display:block;color:var(--muted);font-size:12px;margin-bottom:5px}.field input,.field select,.field textarea{width:100%;border:1px solid var(--line);border-radius:11px;background:#0c1524;color:var(--text);padding:12px;font:inherit;min-width:0}.field textarea{resize:vertical;min-height:65px}.full{grid-column:1/-1}
+button{border:0;border-radius:12px;padding:13px 15px;font:inherit;font-weight:750;cursor:pointer}.primary{background:var(--accent);color:#17202d;width:100%;margin-top:12px}.secondary{background:var(--panel2);color:var(--text);border:1px solid var(--line)}.danger{background:#40232a;color:#ffdada;border:1px solid #6a343d}
+.status{padding:14px;border:1px solid var(--line);border-radius:14px;margin-top:14px}.status strong{display:block;font-size:17px}.status p{margin:5px 0 0;color:var(--muted);font-size:13px}.good{border-color:#277e5b;background:#102a25}.bad{border-color:#8d4141;background:#301d25}
+.note{font-size:12px;color:var(--muted)}.journal-entry{padding:12px 0;border-bottom:1px solid var(--line)}.journal-entry:last-child{border-bottom:0}.journal-entry strong{display:block}.journal-entry p{margin:3px 0;color:var(--muted);font-size:13px}.journal-entry button{margin-top:6px;padding:7px 10px;font-size:12px}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:20px 8px}
+@media(max-width:420px){main{padding:12px 10px 28px}.hero h1{font-size:26px}.fields{grid-template-columns:1fr}.full{grid-column:auto}}
+</style>
+</head>
+<body><main>
+<header class="hero">
+ <div class="kicker">DISCIPLINE • STRUCTURE • RISQUE</div>
+ <div class="row"><h1>FAUCON</h1><span class="pill">CHECKLIST AVANT TRADE</span></div>
+ <p>Je vérifie mon plan avant de risquer mon capital. Une case manquante = pas d’entrée.</p>
+</header>
+<section>
+ <div class="row"><h2>1. Les 12 règles Faucon</h2><span class="pill" id="count">0 / 12</span></div>
+ <div class="progress"><div class="bar" id="bar"></div></div>
+ <p class="sub">Coche uniquement ce que tu as réellement confirmé sur le graphique.</p>
+ <div id="checks"></div>
+</section>
+<section>
+ <h2>2. Contrôle du risque et de la discipline</h2>
+ <label class="item"><input type="checkbox" id="riskok"><span>Mon risque prévu est connu et acceptable pour mon compte.<small>Ex. : 10 $ uniquement si le contrat et le Stop Loss le permettent.</small></span></label>
+ <label class="item"><input type="checkbox" id="lotok"><span>Le lot est calculé selon le Stop Loss et les spécifications de l’indice.<small>Je ne choisis pas un lot au hasard pour ne pas rater l’opportunité.</small></span></label>
+ <label class="item"><input type="checkbox" id="discipline"><span>Je respecte mon plan et je n’élargis pas arbitrairement mon Stop Loss.</span></label>
+ <div class="status bad" id="status"><strong>⏸ RESTER EN OBSERVATION</strong><p>Valide les 12 règles et les 3 contrôles de sécurité avant d’envisager une entrée.</p></div>
+</section>
+<section>
+ <h2>3. Fiche du trade</h2>
+ <p class="sub">Facultatif avant l’entrée, utile pour ton journal.</p>
+ <div class="fields">
+  <div class="field"><label for="asset">Indice / actif</label><input id="asset" placeholder="Ex. Volatility 25"></div>
+  <div class="field"><label for="direction">Direction</label><select id="direction"><option value="">Choisir…</option><option>Achat</option><option>Vente</option></select></div>
+  <div class="field"><label for="scenario">Scénario</label><select id="scenario"><option value="">Choisir…</option><option>Reverse</option><option>Continuation</option></select></div>
+  <div class="field"><label for="entry">Prix d’entrée</label><input id="entry" inputmode="decimal" placeholder="Prix prévu"></div>
+  <div class="field"><label for="sl">Stop Loss</label><input id="sl" inputmode="decimal" placeholder="Niveau du SL"></div>
+  <div class="field"><label for="tp">Take Profit</label><input id="tp" inputmode="decimal" placeholder="Niveau du TP"></div>
+  <div class="field"><label for="risk">Risque prévu ($)</label><input id="risk" inputmode="decimal" placeholder="Ex. 10"></div>
+  <div class="field"><label for="lot">Lot prévu</label><input id="lot" inputmode="decimal" placeholder="Lot calculé"></div>
+  <div class="field full"><label for="comment">Pourquoi ce setup ? / note</label><textarea id="comment" placeholder="Structure, confirmation, raison d’entrée…"></textarea></div>
+ </div>
+ <button class="primary" id="save">Enregistrer dans mon journal</button>
+ <p class="note">L’enregistrement se fait dans le stockage local de ce navigateur sur cet appareil. Il ne se synchronise pas automatiquement avec Deriv ni avec un autre téléphone.</p>
+</section>
+<section>
+ <div class="row"><h2>4. Mon journal</h2><span class="pill" id="journalCount">0 trade</span></div>
+ <div id="journal"><p class="note">Aucun trade enregistré pour le moment.</p></div>
+ <button class="secondary" id="export">Exporter mon journal (CSV)</button>
+ <button class="secondary" id="reset" style="margin-left:6px">Réinitialiser les cases</button>
+</section>
+<footer>FAUCON — outil de discipline, pas une garantie de gain. Une checklist complète ne supprime jamais le risque de perte.</footer>
+</main>
+<script>
+const rules=[
+"Le scénario est clairement Reverse ou Continuation.",
+"La direction HTF est identifiée.",
+"HTF et LTF sont alignés.",
+"Les trois touchés sont présents.",
+"La section du centre est présente.",
+"Golden Bond / Hook Point présent, ou cassure attendue définie.",
+"La structure est propre et compréhensible.",
+"La bougie de confirmation est clôturée.",
+"L’entrée est prévue au troisième touché ou à la cassure de structure.",
+"Le setup est visible sur plusieurs unités de temps.",
+"Le ratio risque/rendement respecte les règles de la stratégie.",
+"Le Stop Loss est logique et placé au bon endroit."
+];
+const $=id=>document.getElementById(id);
+const checks=$("checks");
+rules.forEach((r,i)=>{const label=document.createElement("label");label.className="item";const input=document.createElement("input");input.type="checkbox";input.dataset.rule=i;const span=document.createElement("span");span.textContent=(i+1)+". "+r;label.append(input,span);checks.append(label);input.addEventListener("change",update)});
+["riskok","lotok","discipline"].forEach(id=>$(id).addEventListener("change",update));
+function update(){const n=[...checks.querySelectorAll("input")].filter(x=>x.checked).length;const safety=["riskok","lotok","discipline"].every(id=>$(id).checked);$("count").textContent=n+" / 12";$("bar").style.width=(n/12*100)+"%";const ok=n===12&&safety;const s=$("status");s.className="status "+(ok?"good":"bad");s.querySelector("strong").textContent=ok?"✓ CONDITIONS COCHÉES — SETUP À ÉVALUER":"⏸ RESTER EN OBSERVATION";s.querySelector("p").textContent=ok?"Le contrôle est complet. Vérifie une dernière fois que le marché respecte toujours ton scénario. Cela ne garantit pas un résultat gagnant.":"Il reste "+(12-n)+" règle(s) Faucon et "+(["riskok","lotok","discipline"].filter(id=>!$(id).checked).length)+" contrôle(s) de sécurité à valider."}
+const key="fauconJournalV1";
+function readJournal(){try{return JSON.parse(localStorage.getItem(key)||"[]")}catch(e){return []}}
+function renderJournal(){const entries=readJournal();$("journalCount").textContent=entries.length+" trade"+(entries.length>1?"s":"");const box=$("journal");box.replaceChildren();if(!entries.length){const p=document.createElement("p");p.className="note";p.textContent="Aucun trade enregistré pour le moment.";box.append(p);return}entries.slice().reverse().forEach((e,revIndex)=>{const index=entries.length-1-revIndex;const div=document.createElement("div");div.className="journal-entry";const strong=document.createElement("strong");strong.textContent=e.asset+" • "+e.direction+" • "+e.scenario;const p=document.createElement("p");p.textContent=e.date+" | Entrée: "+(e.entry||"—")+" | SL: "+(e.sl||"—")+" | TP: "+(e.tp||"—")+" | Risque: "+(e.risk||"—")+" $ | Lot: "+(e.lot||"—");const c=document.createElement("p");c.textContent=e.comment||"Aucune note";const b=document.createElement("button");b.className="danger";b.textContent="Supprimer";b.onclick=()=>{const a=readJournal();a.splice(index,1);localStorage.setItem(key,JSON.stringify(a));renderJournal()};div.append(strong,p,c,b);box.append(div)})}
+$("save").addEventListener("click",()=>{const n=[...checks.querySelectorAll("input")].filter(x=>x.checked).length;const safe=["riskok","lotok","discipline"].every(id=>$(id).checked);if(n!==12||!safe){alert("Checklist incomplète : reste en observation et valide les contrôles avant d’enregistrer un setup.");return}const e={date:new Date().toLocaleString("fr-FR"),asset:$("asset").value.trim()||"Actif non précisé",direction:$("direction").value||"Direction non précisée",scenario:$("scenario").value||"Scénario non précisé",entry:$("entry").value,sl:$("sl").value,tp:$("tp").value,risk:$("risk").value,lot:$("lot").value,comment:$("comment").value.trim()};const a=readJournal();a.push(e);localStorage.setItem(key,JSON.stringify(a));renderJournal();alert("Setup enregistré dans le journal local.")});
+$("reset").addEventListener("click",()=>{checks.querySelectorAll("input").forEach(x=>x.checked=false);["riskok","lotok","discipline"].forEach(id=>$(id).checked=false);update()});
+$("export").addEventListener("click",()=>{const a=readJournal();if(!a.length){alert("Le journal est vide.");return}const cols=["date","asset","direction","scenario","entry","sl","tp","risk","lot","comment"];const q=v=>'"'+String(v??"").replace(/"/g,'""')+'"';const csv=[cols.join(";"),...a.map(e=>cols.map(k=>q(e[k])).join(";"))].join("\r\n");const blob=new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"});const url=URL.createObjectURL(blob);const link=document.createElement("a");link.href=url;link.download="journal_faucon.csv";link.click();URL.revokeObjectURL(url)});
+renderJournal();update();
+</script>
+</body></html>
